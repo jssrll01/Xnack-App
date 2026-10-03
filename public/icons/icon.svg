@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f0f0f3" />
+    </radialGradient>
+
+    <linearGradient id="shadowDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#cbced1" stop-opacity="0.9" />
+    </linearGradient>
+
+    <filter id="neuRaised" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="14" result="blur1" />
+      <feOffset in="blur1" dx="10" dy="10" result="offset1" />
+      <feFlood flood-color="#cbced1" flood-opacity="1" result="color1" />
+      <feComposite in="color1" in2="offset1" operator="in" result="shadow1" />
+
+      <feGaussianBlur in="SourceAlpha" stdDeviation="14" result="blur2" />
+      <feOffset in="blur2" dx="-10" dy="-10" result="offset2" />
+      <feFlood flood-color="#ffffff" flood-opacity="1" result="color2" />
+      <feComposite in="color2" in2="offset2" operator="in" result="shadow2" />
+
+      <feMerge>
+        <feMergeNode in="shadow1" />
+        <feMergeNode in="shadow2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="neuInset" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurIn" />
+      <feOffset in="blurIn" dx="6" dy="6" result="offIn" />
+      <feFlood flood-color="#cbced1" flood-opacity="1" result="colIn" />
+      <feComposite in="colIn" in2="offIn" operator="in" result="shadowIn" />
+
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blurIn2" />
+      <feOffset in="blurIn2" dx="-6" dy="-6" result="offIn2" />
+      <feFlood flood-color="#ffffff" flood-opacity="1" result="colIn2" />
+      <feComposite in="colIn2" in2="offIn2" operator="in" result="shadowIn2" />
+
+      <feMerge>
+        <feMergeNode in="shadowIn" />
+        <feMergeNode in="shadowIn2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Full white background (matches PWA theme) -->
+  <rect width="512" height="512" fill="#ffffff" />
+
+  <!-- Neumorphic raised panel -->
+  <rect x="46" y="46" width="420" height="420" rx="90"
+        fill="url(#bgGlow)" filter="url(#neuRaised)" />
+
+  <!-- Inner neumorphic pressed circle behind the emoji -->
+  <circle cx="256" cy="256" r="130" fill="#f0f0f3" filter="url(#neuInset)" />
+
+  <!-- Soft accent ring -->
+  <circle cx="256" cy="256" r="130" fill="none"
+          stroke="#ffffff" stroke-opacity="0.6" stroke-width="2" />
+
+  <!-- Burger emoji -->
+  <text x="50%" y="50%"
+        font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, EmojiOne Color, Android Emoji, sans-serif"
+        font-size="180"
+        text-anchor="middle"
+        dominant-baseline="central"
+        dy=".08em">🍔</text>
+</svg>

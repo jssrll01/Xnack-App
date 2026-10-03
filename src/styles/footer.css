@@ -1,0 +1,101 @@
+.footer {
+  margin-top: 80px;
+  padding: 60px 0 24px;
+  background: var(--bg);
+  box-shadow: inset 0 10px 20px -10px var(--shadow-dark),
+              inset 0 -10px 20px -10px var(--shadow-light);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 48px;
+  padding-bottom: 40px;
+}
+
+.footer-brand p {
+  color: var(--text-soft);
+  margin: 20px 0 24px;
+  max-width: 340px;
+  font-weight: 300;
+}
+
+.footer-brand .logo { margin-bottom: 8px; }
+
+.footer-col h4 {
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col a, .contact-list li {
+  color: var(--text-soft);
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copy-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  background: var(--bg);
+  box-shadow: 4px 4px 8px var(--shadow-dark),
+              -4px -4px 8px var(--shadow-light);
+}
+
+.copy-phone:active {
+  box-shadow: inset 3px 3px 6px var(--shadow-dark),
+              inset -3px -3px 6px var(--shadow-light);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-top: 4px;
+}
+
+.install-btn.installed {
+  color: #1f9d55;
+  cursor: default;
+}
+
+.install-btn:disabled {
+  opacity: 1;
+}
+
+.install-btn svg {
+  font-size: 1.05rem;
+}

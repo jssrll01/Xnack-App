@@ -1,0 +1,133 @@
+.menu-page { padding-top: 140px; }
+
+.menu-hero { margin-bottom: 60px; }
+
+.menu-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.search-icon { color: var(--text-soft); }
+
+.search-wrap input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  width: 100%;
+  color: var(--text);
+}
+
+.category-tabs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cat-btn {
+  padding: 10px 22px;
+  border-radius: 14px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  background: var(--bg);
+  box-shadow: 4px 4px 8px var(--shadow-dark),
+              -4px -4px 8px var(--shadow-light);
+}
+
+.cat-btn.active {
+  color: var(--accent);
+  box-shadow: inset 3px 3px 6px var(--shadow-dark),
+              inset -3px -3px 6px var(--shadow-light);
+}
+
+.menu-grid-wrap { padding-bottom: 80px; }
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.menu-item {
+  padding: 28px 24px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.item-emoji {
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
+
+.item-body { flex: 1; }
+
+.item-cat {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.item-body h3 {
+  font-size: 1.05rem;
+  margin: 6px 0 18px;
+}
+
+.item-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-price {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.small-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.small-btn.added {
+  color: #1f9d55;
+}
+
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.empty-state p {
+  margin-top: 12px;
+  color: var(--text-soft);
+}
+
+@media (max-width: 600px) {
+  .menu-item { flex-direction: column; align-items: center; text-align: center; }
+  .item-footer { width: 100%; }
+}

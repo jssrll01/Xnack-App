@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <filter id="mInset" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b" />
+      <feOffset in="b" dx="5" dy="5" result="o" />
+      <feFlood flood-color="#cbced1" flood-opacity="1" result="c" />
+      <feComposite in="c" in2="o" operator="in" result="s1" />
+
+      <feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b2" />
+      <feOffset in="b2" dx="-5" dy="-5" result="o2" />
+      <feFlood flood-color="#ffffff" flood-opacity="1" result="c2" />
+      <feComposite in="c2" in2="o2" operator="in" result="s2" />
+
+      <feMerge>
+        <feMergeNode in="s1" />
+        <feMergeNode in="s2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" fill="#f0f0f3" />
+
+  <circle cx="256" cy="256" r="150" fill="#f0f0f3" filter="url(#mInset)" />
+
+  <text x="50%" y="50%"
+        font-family="Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, EmojiOne Color, Android Emoji, sans-serif"
+        font-size="150"
+        text-anchor="middle"
+        dominant-baseline="central"
+        dy=".08em">🍔</text>
+</svg>
