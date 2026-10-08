@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiSearch, FiPlus, FiSliders, FiX } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
+import { MenuGridSkeleton } from '../components/Skeleton';
 import '../styles/menu.css';
 
 const categories = ['All', 'Snacks', 'Mains', 'Drinks', 'Desserts'];
@@ -19,10 +20,16 @@ export default function Menu() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState('default');
   const [flash, setFlash] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const catScrollRef = useRef(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(t);
+  }, []);
 
   const filtered = products
     .filter((p) => {
@@ -39,7 +46,6 @@ export default function Menu() {
 
   const handleQuickAdd = (product, e) => {
     e.stopPropagation();
-    // If product has variations, go to product page instead
     if (product.variations && product.variations.length > 0) {
       navigate(`/product/${product.id}`);
       return;
@@ -115,13 +121,15 @@ export default function Menu() {
       </section>
 
       <section className="container menu-grid-wrap">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <MenuGridSkeleton count={1} />
+        ) : filtered.length === 0 ? (
           <div className="empty-state neu-flat">
             <span style={{ fontSize: '3rem' }}>🍽️</span>
             <p>No items found. Try another search.</p>
           </div>
         ) : (
-          <div className="menu-grid">
+          <div className="menu-grid fade-in-content">
             {filtered.map((item) => (
               <div
                 key={item.id}

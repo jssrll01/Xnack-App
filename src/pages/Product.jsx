@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   FiArrowLeft,
@@ -7,11 +7,10 @@ import {
   FiMinus,
   FiCheck,
   FiShoppingCart,
-  FiChevronDown,
-  FiInfo,
 } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
+import { ProductSkeleton } from '../components/Skeleton';
 import '../styles/product.css';
 
 export default function Product() {
@@ -19,13 +18,18 @@ export default function Product() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 450);
+    return () => clearTimeout(t);
+  }, []);
+
   const product = products.find((p) => String(p.id) === String(id));
 
   const [selectedVariation, setSelectedVariation] = useState(null);
   const [qty, setQty] = useState(1);
   const [flash, setFlash] = useState(false);
   const [shareMsg, setShareMsg] = useState('');
-  const [showDetails, setShowDetails] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   if (!product) {
     return (
@@ -38,6 +42,26 @@ export default function Product() {
               Back to Menu
             </Link>
           </div>
+        </section>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="product-page">
+        <section className="container product-hero">
+          <div className="product-topbar">
+            <button
+              type="button"
+              className="back-btn neu-flat"
+              onClick={() => navigate('/menu')}
+            >
+              <FiArrowLeft />
+              <span>Back to Menu</span>
+            </button>
+          </div>
+          <ProductSkeleton />
         </section>
       </div>
     );
@@ -148,36 +172,6 @@ export default function Product() {
             <h1 className="product-title">{product.name}</h1>
             <p className="product-price">₱{product.price}</p>
 
-            <button
-              type="button"
-              className={`view-details-btn neu-flat ${
-                showDetails ? 'open' : ''
-              }`}
-              onClick={() => setShowDetails((v) => !v)}
-              aria-expanded={showDetails}
-            >
-              <FiInfo />
-              <span>{showDetails ? 'Hide Product Details' : 'View Product Details'}</span>
-              <FiChevronDown className="chev" />
-            </button>
-
-            {showDetails && (
-              <div className="details-panel">
-                <p className="product-description">{product.description}</p>
-
-                {product.details && product.details.length > 0 && (
-                  <ul className="product-details">
-                    {product.details.map((d, i) => (
-                      <li key={i}>
-                        <FiCheck />
-                        <span>{d}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            )}
-
             {hasVariations && (
               <div className="variation-block">
                 <h4>
@@ -238,6 +232,22 @@ export default function Product() {
                 Add to Cart · ₱{(product.price * qty).toFixed(2)}
               </span>
             </button>
+
+            <div className="product-details-section">
+              <h4>Product Details</h4>
+              <p className="product-description">{product.description}</p>
+
+              {product.details && product.details.length > 0 && (
+                <ul className="product-details">
+                  {product.details.map((d, i) => (
+                    <li key={i}>
+                      <FiCheck />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
       </section>

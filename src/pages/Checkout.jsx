@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   FiCheck,
@@ -18,6 +18,7 @@ import {
   sendOrderToTelegram,
   sendReceiptPhoto,
 } from '../services/telegram';
+import { CheckoutSkeleton } from '../components/Skeleton';
 import '../styles/checkout.css';
 
 const MAYA_QR =
@@ -47,6 +48,12 @@ export default function Checkout() {
 
   const [status, setStatus] = useState('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 400);
+    return () => clearTimeout(t);
+  }, []);
 
   const total = subtotal;
 
@@ -197,7 +204,12 @@ export default function Checkout() {
         <p className="section-subtitle">Almost there — just a few details.</p>
       </section>
 
-      <section className="container checkout-wrap">
+      {loading ? (
+        <section className="container">
+          <CheckoutSkeleton />
+        </section>
+      ) : (
+      <section className="container checkout-wrap fade-in-content">
         <form className="checkout-form neu-flat" onSubmit={handleSubmit}>
           <h3>Delivery Information</h3>
 
@@ -631,6 +643,7 @@ export default function Checkout() {
           </div>
         </aside>
       </section>
+      )}
     </div>
   );
 }

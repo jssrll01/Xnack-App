@@ -268,67 +268,99 @@
 @media (max-width: 500px) {
   .product-page { padding-top: 100px; }
   .product-card { padding: 16px; border-radius: 22px; }
+  .product-topbar {
+    gap: 10px;
+  }
+  .back-btn span, .share-btn span {
+    display: inline;
+  }
+  .back-btn, .share-btn {
+    padding: 10px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 380px) {
   .back-btn span, .share-btn span { display: none; }
   .back-btn, .share-btn { padding: 10px 12px; }
 }
 
-/* View details button */
-.view-details-btn {
-  display: inline-flex;
+
+/* Product details section (below add to cart) */
+.product-details-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.product-details-section h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+/* Force topbar to always be visible and prominent */
+.product-topbar {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
   width: 100%;
-  padding: 14px 18px;
+}
+
+.product-topbar .back-btn,
+.product-topbar .share-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
   border-radius: 14px;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text);
+  background: #f0f0f3;
+  box-shadow:
+    6px 6px 12px var(--shadow-dark),
+    -6px -6px 12px var(--shadow-light);
   cursor: pointer;
-  margin-bottom: 12px;
-  text-align: center;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: static;
 }
 
-.view-details-btn svg:first-child {
-  color: var(--accent);
+.product-topbar .back-btn { color: var(--accent); }
+.product-topbar .share-btn { color: var(--accent); }
+
+.product-topbar .back-btn:active,
+.product-topbar .share-btn:active {
+  box-shadow: inset 4px 4px 8px var(--shadow-dark),
+              inset -4px -4px 8px var(--shadow-light);
+}
+
+.product-topbar .back-btn svg,
+.product-topbar .share-btn svg {
   font-size: 1.1rem;
+  display: inline-block;
 }
 
-.view-details-btn .chev {
-  font-size: 1.1rem;
-  color: var(--text-soft);
-  transition: transform 0.25s ease;
-}
-
-.view-details-btn.open .chev {
-  transform: rotate(180deg);
-}
-
-.view-details-btn:active {
-  box-shadow: inset 3px 3px 6px var(--shadow-dark),
-              inset -3px -3px 6px var(--shadow-light);
-}
-
-/* Details panel */
-.details-panel {
-  padding: 4px 2px 20px 2px;
-  animation: detailsSlide 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@keyframes detailsSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Mobile: keep both buttons visible with text */
 @media (max-width: 500px) {
-  .view-details-btn {
-    font-size: 0.86rem;
-    padding: 12px 14px;
+  .product-topbar .back-btn,
+  .product-topbar .share-btn {
+    padding: 10px 14px !important;
+    font-size: 0.82rem !important;
+  }
+  .product-topbar .back-btn span,
+  .product-topbar .share-btn span {
+    display: inline !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .product-topbar .back-btn span,
+  .product-topbar .share-btn span {
+    display: none !important;
   }
 }

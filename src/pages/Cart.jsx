@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { FiTrash2, FiMinus, FiPlus, FiArrowLeft } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { CartSkeleton } from '../components/Skeleton';
 import '../styles/cart.css';
 
 export default function Cart() {
@@ -12,6 +14,12 @@ export default function Cart() {
     subtotal,
   } = useCart();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 400);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div className="cart-page">
@@ -31,7 +39,9 @@ export default function Cart() {
       </section>
 
       <section className="container cart-wrap">
-        {items.length === 0 ? (
+        {loading ? (
+          <CartSkeleton />
+        ) : items.length === 0 ? (
           <div className="empty-cart neu-flat">
             <span style={{ fontSize: '3rem' }}>🛒</span>
             <h3>Your cart is empty</h3>
