@@ -1,12 +1,6 @@
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiClock, FiAward, FiTruck } from 'react-icons/fi';
+import { FiClock, FiAward, FiTruck } from 'react-icons/fi';
 import '../styles/home.css';
-
-const featured = [
-  { name: 'Classic Loaded Fries', price: 120, tag: 'Bestseller', emoji: '🍟' },
-  { name: 'Crispy Chicken Wrap', price: 150, tag: 'New', emoji: '🌯' },
-  { name: 'Street Corn Cup', price: 95, tag: 'Fan Favorite', emoji: '🌽' },
-];
 
 const features = [
   { icon: <FiClock />, title: 'Fast Service', desc: 'Fresh and ready in minutes.' },
@@ -29,16 +23,12 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <Link to="/menu" className="neu-btn neu-btn-accent">
-              View Menu <FiArrowRight style={{ verticalAlign: 'middle', marginLeft: 6 }} />
+              View Menu
             </Link>
             <Link to="/about" className="neu-btn">Our Story</Link>
           </div>
 
           <div className="hero-stats">
-            <div className="stat neu-flat">
-              <strong>15+</strong>
-              <span>Menu Items</span>
-            </div>
             <div className="stat neu-flat">
               <strong>4.9★</strong>
               <span>Customer Rating</span>
@@ -48,16 +38,6 @@ export default function Home() {
               <span>Happy Bites</span>
             </div>
           </div>
-        </div>
-
-        <div className="hero-visual">
-          <div className="hero-card neu-flat">
-            <div className="hero-emoji">🍔</div>
-            <div className="hero-tag">Today's Special</div>
-            <h3>Xnack Signature Burger</h3>
-            <p>Double patty, house sauce, brioche bun.</p>
-          </div>
-          <div className="floating-badge neu-flat">Fresh Daily</div>
         </div>
       </section>
 
@@ -72,29 +52,6 @@ export default function Home() {
               <p>{f.desc}</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="section container">
-        <h2 className="section-title">Crowd Favorites</h2>
-        <p className="section-subtitle">The snacks everyone keeps coming back for.</p>
-        <div className="featured-grid">
-          {featured.map((item, i) => (
-            <div key={i} className="menu-card neu-flat">
-              <span className="menu-tag neu-pressed">{item.tag}</span>
-              <div className="menu-emoji">{item.emoji}</div>
-              <h3>{item.name}</h3>
-              <div className="menu-footer">
-                <span className="menu-price">₱{item.price}</span>
-                <Link to="/menu" className="neu-btn add-btn">Order</Link>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="center-cta">
-          <Link to="/menu" className="neu-btn neu-btn-accent">
-            See Full Menu <FiArrowRight style={{ verticalAlign: 'middle', marginLeft: 6 }} />
-          </Link>
         </div>
       </section>
 

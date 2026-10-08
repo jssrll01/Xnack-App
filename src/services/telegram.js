@@ -33,32 +33,63 @@ export async function sendOrderToTelegram(order) {
   }
 }
 
+export async function sendReceiptPhoto(dataUrl, orderId) {
+  if (!BOT_TOKEN || !CHAT_ID) {
+    console.warn('Receipt skipped: missing env');
+    return { ok: false, error: 'Missing config' };
+  }
+
+  try {
+    // Convert data URL -> Blob
+    const blobRes = await fetch(dataUrl);
+    const blob = await blobRes.blob();
+
+    // Telegram has a 5MB photo limit; if larger, use document
+    const useDocument = blob.size > 5 * 1024 * 1024;
+    const endpoint = useDocument ? 'sendDocument' : 'sendPhoto';
+    const fieldName = useDocument ? 'document' : 'photo';
+
+    const formData = new FormData();
+    formData.append('chat_id', CHAT_ID);
+    formData.append(fieldName, blob, `receipt_${orderId}.jpg`);
+    formData.append('caption', `📸 Receipt for Order ${orderId}`);
+
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/${endpoint}`;
+    const res = await fetch(url, { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (!data.ok) {
+      console.error('Receipt upload failed:', data);
+      return { ok: false, error: data.description };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error('Receipt upload exception:', err);
+    return { ok: false, error: err.message };
+  }
+}
+
 function buildMessage(order) {
-  const {
-    customer,
-    delivery,
-    items,
-    subtotal,
-    deliveryFee,
-    total,
-    orderId,
-    date,
-  } = order;
+  const { customer, delivery, payment, items, subtotal, total, orderId, date } = order;
 
   const itemLines = items
     .map(
       (i) =>
-        `  • ${i.emoji} <b>${escape(i.name)}</b> x${i.qty} — ₱${(i.price * i.qty).toFixed(2)}`
+        `  • <b>${escape(i.name)}</b> x${i.qty} — ₱${(i.price * i.qty).toFixed(2)}`
     )
     .join('\n');
 
-  const deliveryLabel =
-    delivery.method === 'pickup' ? '🏠 Pick-up' : '🚚 Door to Door';
+  const deliveryLabels = {
+    pickup: '🏠 Pick-up',
+    meetup: '📍 Meet-up',
+    express: '🚚 Express (Lalamove)',
+  };
 
-  const deliveryDetails =
-    delivery.method === 'delivery'
-      ? `\n<b>Address:</b> ${escape(delivery.address)}\n<b>Distance:</b> ${delivery.distance} km\n<b>Delivery Fee:</b> ₱${deliveryFee.toFixed(2)}`
-      : '';
+  const paymentLabels = {
+    cash: '💵 Cash',
+    gcash: '📱 GCash',
+    maya: '📱 Maya',
+  };
 
   return `
 <b>🛎 NEW XNACK ORDER</b>
@@ -66,10 +97,21 @@ function buildMessage(order) {
 <b>Date:</b> ${date}
 
 <b>👤 Customer</b>
-<b>Name:</b> ${escape(customer.name)}
-<b>Phone:</b> ${escape(customer.phone)}
+<b>Name:</b> ${escape(customer.fullName)}
+<b>Mobile:</b> ${escape(customer.mobile)}
+<b>Email:</b> ${escape(customer.email)}
 
-<b>${deliveryLabel}</b>${deliveryDetails}
+<b>🏠 Delivery Address</b>
+${escape(customer.address)}
+<b>Landmark:</b> ${escape(customer.landmark)}
+<b>Barangay:</b> ${escape(customer.barangay)}
+<b>City:</b> ${escape(customer.city)}
+<b>Province:</b> ${escape(customer.province)}
+<b>Instructions:</b> ${escape(customer.instructions)}
+${customer.note ? `<b>Note:</b> ${escape(customer.note)}` : ''}
+
+<b>${deliveryLabels[delivery.method] || delivery.method}</b>
+<b>${paymentLabels[payment.method] || payment.method}</b>
 
 <b>🧾 Items</b>
 ${itemLines}
@@ -80,7 +122,7 @@ ${itemLines}
 }
 
 function escape(text) {
-  return String(text)
+  return String(text || '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');

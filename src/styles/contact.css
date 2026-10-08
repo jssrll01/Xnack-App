@@ -111,3 +111,67 @@
   .contact-grid { grid-template-columns: 1fr; }
   .contact-form { padding: 32px 24px; }
 }
+
+/* Socials block */
+.contact-socials {
+  padding: 36px 32px;
+  border-radius: 30px;
+}
+
+.contact-socials h3 {
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+}
+
+.socials-sub {
+  color: var(--text-soft);
+  font-weight: 300;
+  font-size: 0.92rem;
+  margin-bottom: 24px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 18px;
+}
+
+.social-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #1877f2;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.social-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.social-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+.social-handle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-info h3 { font-size: 1.3rem; }
+  .contact-socials { padding: 28px 22px; }
+}

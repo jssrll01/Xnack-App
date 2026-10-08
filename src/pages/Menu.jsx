@@ -1,42 +1,56 @@
-import { useState } from 'react';
-import { FiSearch, FiPlus } from 'react-icons/fi';
+import { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiSearch, FiPlus, FiSliders, FiX } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
+import { products } from '../data/products';
 import '../styles/menu.css';
 
 const categories = ['All', 'Snacks', 'Mains', 'Drinks', 'Desserts'];
-
-const items = [
-  { id: 1, name: 'Classic Loaded Fries', cat: 'Snacks', price: 120, emoji: '🍟' },
-  { id: 2, name: 'Street Corn Cup', cat: 'Snacks', price: 95, emoji: '🌽' },
-  { id: 3, name: 'Xnack Signature Burger', cat: 'Mains', price: 185, emoji: '🍔' },
-  { id: 4, name: 'Crispy Chicken Wrap', cat: 'Mains', price: 150, emoji: '🌯' },
-  { id: 5, name: 'Loaded Nachos', cat: 'Snacks', price: 140, emoji: '🧀' },
-  { id: 6, name: 'Fresh Lemonade', cat: 'Drinks', price: 65, emoji: '🍋' },
-  { id: 7, name: 'Iced Coffee', cat: 'Drinks', price: 85, emoji: '🧋' },
-  { id: 8, name: 'Churro Bites', cat: 'Desserts', price: 95, emoji: '🍩' },
-  { id: 9, name: 'Soft Serve Cone', cat: 'Desserts', price: 70, emoji: '🍦' },
+const sortOptions = [
+  { value: 'default', label: 'Default' },
+  { value: 'price-asc', label: 'Price: Low to High' },
+  { value: 'price-desc', label: 'Price: High to Low' },
+  { value: 'name-asc', label: 'Name: A–Z' },
 ];
 
 export default function Menu() {
-  const [active, setActive] = useState('All');
   const [query, setQuery] = useState('');
+  const [activeCat, setActiveCat] = useState('All');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [sortBy, setSortBy] = useState('default');
   const [flash, setFlash] = useState(null);
+
   const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const catScrollRef = useRef(null);
 
-  const filtered = items.filter((i) => {
-    const matchCat = active === 'All' || i.cat === active;
-    const matchQ = i.name.toLowerCase().includes(query.toLowerCase());
-    return matchCat && matchQ;
-  });
-
-  const handleAdd = (item) => {
-    addToCart({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      emoji: item.emoji,
+  const filtered = products
+    .filter((p) => {
+      const matchCat = activeCat === 'All' || p.category === activeCat;
+      const matchQ = p.name.toLowerCase().includes(query.toLowerCase());
+      return matchCat && matchQ;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'price-asc') return a.price - b.price;
+      if (sortBy === 'price-desc') return b.price - a.price;
+      if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
+      return 0;
     });
-    setFlash(item.id);
+
+  const handleQuickAdd = (product, e) => {
+    e.stopPropagation();
+    // If product has variations, go to product page instead
+    if (product.variations && product.variations.length > 0) {
+      navigate(`/product/${product.id}`);
+      return;
+    }
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+    setFlash(product.id);
     setTimeout(() => setFlash(null), 900);
   };
 
@@ -47,26 +61,56 @@ export default function Menu() {
         <p className="section-subtitle">Freshly made. Honestly priced.</p>
 
         <div className="menu-controls">
-          <div className="search-wrap neu-pressed">
-            <FiSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search snacks..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
+          <div className="search-row">
+            <div className="search-wrap neu-pressed">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search snacks..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+            <button
+              type="button"
+              className={`filter-btn neu-flat ${filterOpen ? 'active' : ''}`}
+              onClick={() => setFilterOpen((v) => !v)}
+              aria-label="Filters"
+            >
+              {filterOpen ? <FiX /> : <FiSliders />}
+            </button>
           </div>
-          <div className="category-tabs">
+
+          <div className="cat-scroll" ref={catScrollRef}>
             {categories.map((c) => (
               <button
                 key={c}
-                className={`cat-btn ${active === c ? 'active' : ''}`}
-                onClick={() => setActive(c)}
+                className={`cat-chip ${activeCat === c ? 'active' : ''}`}
+                onClick={() => setActiveCat(c)}
               >
                 {c}
               </button>
             ))}
           </div>
+
+          {filterOpen && (
+            <div className="filter-panel neu-flat">
+              <h4>Sort by</h4>
+              <div className="filter-options">
+                {sortOptions.map((opt) => (
+                  <button
+                    key={opt.value}
+                    className={`filter-chip ${
+                      sortBy === opt.value ? 'active' : ''
+                    }`}
+                    onClick={() => setSortBy(opt.value)}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -79,10 +123,18 @@ export default function Menu() {
         ) : (
           <div className="menu-grid">
             {filtered.map((item) => (
-              <div key={item.id} className="menu-item neu-flat">
-                <div className="item-emoji">{item.emoji}</div>
+              <div
+                key={item.id}
+                className="menu-item neu-flat"
+                onClick={() => navigate(`/product/${item.id}`)}
+                role="button"
+                tabIndex={0}
+              >
+                <div className="item-image-wrap">
+                  <img src={item.image} alt={item.name} className="item-image" />
+                </div>
                 <div className="item-body">
-                  <span className="item-cat">{item.cat}</span>
+                  <span className="item-cat">{item.category}</span>
                   <h3>{item.name}</h3>
                   <div className="item-footer">
                     <span className="item-price">₱{item.price}</span>
@@ -90,7 +142,7 @@ export default function Menu() {
                       className={`neu-btn neu-btn-accent small-btn ${
                         flash === item.id ? 'added' : ''
                       }`}
-                      onClick={() => handleAdd(item)}
+                      onClick={(e) => handleQuickAdd(item, e)}
                     >
                       <FiPlus />
                       <span>{flash === item.id ? 'Added!' : 'Add'}</span>

@@ -9,7 +9,7 @@ const values = [
 
 const team = [
   { name: 'Mary Ann', role: 'Cook', emoji: '👩‍🍳' },
-  { name: 'Robert', role: 'Assistant Cook', emoji: '👨‍🍳' },
+  { name: 'Robert', role: 'Assistant', emoji: '👨‍🍳' },
   { name: 'Jessrell', role: 'Website Developer of Xnack', emoji: '🧑‍💻' },
 ];
 

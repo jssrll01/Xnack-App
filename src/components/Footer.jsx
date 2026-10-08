@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { FiPhone, FiMapPin, FiCheck, FiDownload } from 'react-icons/fi';
+import {
+  FiPhone,
+  FiMapPin,
+  FiCheck,
+  FiDownload,
+  FiFacebook,
+} from 'react-icons/fi';
 import useInstallPrompt from '../hooks/useInstallPrompt';
 import '../styles/footer.css';
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
-  const phone = '+63 945 440 8496';
+  const phone = '09242208283';
   const { canInstall, installed, promptInstall } = useInstallPrompt();
 
   const copyPhone = async () => {
@@ -31,21 +37,6 @@ export default function Footer() {
             <span className="logo-mark">X</span>
             <span className="logo-text">nack</span>
           </div>
-          <p>
-            Bold flavors, fresh ingredients, and a whole lot of love in every bite.
-            Your neighborhood snack spot, reimagined.
-          </p>
-
-          {(canInstall || installed) && (
-            <button
-              className={`install-btn neu-btn ${installed ? 'installed' : ''}`}
-              onClick={canInstall ? handleInstall : undefined}
-              disabled={installed}
-            >
-              <FiDownload />
-              <span>{installed ? 'App Installed' : 'Install App'}</span>
-            </button>
-          )}
         </div>
 
         <div className="footer-col">
@@ -61,14 +52,46 @@ export default function Footer() {
         <div className="footer-col">
           <h4>Contact</h4>
           <ul className="contact-list">
-            <li><FiMapPin /> Pagkilatan, Batangas City</li>
             <li>
               <button className="copy-phone" onClick={copyPhone}>
                 {copied ? <FiCheck /> : <FiPhone />}
                 <span>{copied ? 'Copied!' : phone}</span>
               </button>
             </li>
+            <li>
+              <FiMapPin /> Sitio Malao, Pagkilatan, Batangas City
+            </li>
+            <li>
+              <FiMapPin /> Poblacion, San Pascual, Batangas City
+            </li>
           </ul>
+        </div>
+
+        <div className="footer-col">
+          <h4>Follow Us</h4>
+          <ul className="contact-list">
+            <li>
+              <a
+                href="https://www.facebook.com/share/19dXhVYwh2/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social"
+              >
+                <FiFacebook /> Mrj Polvoron
+              </a>
+            </li>
+          </ul>
+
+          {(canInstall || installed) && (
+            <button
+              className={`install-btn neu-btn ${installed ? 'installed' : ''}`}
+              onClick={canInstall ? handleInstall : undefined}
+              disabled={installed}
+            >
+              <FiDownload />
+              <span>{installed ? 'App Installed' : 'Install App'}</span>
+            </button>
+          )}
         </div>
       </div>
 

@@ -87,3 +87,21 @@
   .story-block { grid-template-columns: 1fr; padding: 36px; }
   .values-grid, .team-grid { grid-template-columns: 1fr; }
 }
+
+/* About page section spacing adjustments */
+.about-page .section {
+  padding: 90px 0;
+}
+
+.about-page .section:first-of-type {
+  padding-top: 40px;
+}
+
+@media (max-width: 900px) {
+  .about-page .section {
+    padding: 70px 0;
+  }
+  .about-page .section:first-of-type {
+    padding-top: 20px;
+  }
+}

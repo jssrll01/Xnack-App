@@ -1,4 +1,4 @@
-import { FiTrash2, FiMinus, FiPlus } from 'react-icons/fi';
+import { FiTrash2, FiMinus, FiPlus, FiArrowLeft } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../styles/cart.css';
@@ -10,13 +10,22 @@ export default function Cart() {
     increaseQty,
     decreaseQty,
     subtotal,
-    clearCart,
   } = useCart();
   const navigate = useNavigate();
 
   return (
     <div className="cart-page">
       <section className="container cart-hero">
+        <button
+          type="button"
+          className="back-btn neu-flat"
+          onClick={() => navigate('/menu')}
+          aria-label="Back to menu"
+        >
+          <FiArrowLeft />
+          <span>Back to Menu</span>
+        </button>
+
         <h1 className="section-title">Your Cart</h1>
         <p className="section-subtitle">Review your snacks before checkout.</p>
       </section>
@@ -36,7 +45,13 @@ export default function Cart() {
             <div className="cart-items">
               {items.map((item) => (
                 <div key={item.id} className="cart-item neu-flat">
-                  <div className="cart-emoji">{item.emoji}</div>
+                  <div className="cart-thumb neu-pressed">
+                    {item.image ? (
+                      <img src={item.image} alt={item.name} />
+                    ) : (
+                      <span className="cart-emoji">{item.emoji || '🍽️'}</span>
+                    )}
+                  </div>
                   <div className="cart-info">
                     <h3>{item.name}</h3>
                     <span className="cart-price">₱{item.price}</span>
@@ -67,10 +82,6 @@ export default function Cart() {
                   </button>
                 </div>
               ))}
-
-              <button className="clear-cart-btn neu-btn" onClick={clearCart}>
-                Clear Cart
-              </button>
             </div>
 
             <aside className="cart-summary neu-flat">

@@ -1,7 +1,7 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   FiCheckCircle,
-  FiClock,
+  FiCreditCard,
   FiMapPin,
   FiPhone,
   FiHome,
@@ -10,14 +10,24 @@ import '../styles/notification.css';
 
 export default function Notification() {
   const { state } = useLocation();
-  const navigate = useNavigate();
 
   const orderId = state?.orderId || 'XN-000000';
   const name = state?.name || 'friend';
   const method = state?.method || 'pickup';
+  const payment = state?.payment || 'cash';
   const total = state?.total || 0;
 
-  const isPickup = method === 'pickup';
+  const methodLabels = {
+    pickup: 'Pick-up at XNACK',
+    meetup: 'Meet-up',
+    express: 'Express (Lalamove)',
+  };
+
+  const paymentLabels = {
+    cash: 'Cash on Delivery',
+    gcash: 'GCash',
+    maya: 'Maya',
+  };
 
   return (
     <div className="notification-page">
@@ -42,21 +52,21 @@ export default function Notification() {
           <div className="notif-details">
             <div className="notif-row neu-flat">
               <div className="notif-row-icon neu-pressed">
-                {isPickup ? <FiHome /> : <FiMapPin />}
+                {method === 'pickup' ? <FiHome /> : <FiMapPin />}
               </div>
               <div>
                 <span className="notif-label">Delivery Method</span>
-                <p>{isPickup ? 'Pick-up at our stand' : 'Door to Door'}</p>
+                <p>{methodLabels[method] || method}</p>
               </div>
             </div>
 
             <div className="notif-row neu-flat">
               <div className="notif-row-icon neu-pressed">
-                <FiClock />
+                <FiCreditCard />
               </div>
               <div>
-                <span className="notif-label">Estimated Time</span>
-                <p>{isPickup ? '20 – 30 minutes' : '40 – 60 minutes'}</p>
+                <span className="notif-label">Payment Method</span>
+                <p>{paymentLabels[payment] || payment}</p>
               </div>
             </div>
 
@@ -81,7 +91,7 @@ export default function Notification() {
           </div>
 
           <p className="notif-note">
-            Have questions? Call us at <b>+63 945 440 8496</b>
+            Have questions? Call us at <b>09242208283</b>
           </p>
         </div>
       </section>

@@ -1,0 +1,334 @@
+.product-page { padding-top: 120px; padding-bottom: 60px; }
+
+.product-hero { max-width: 1100px; }
+
+.product-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-btn, .share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+
+.share-btn { color: var(--accent); }
+
+.back-btn:active, .share-btn:active {
+  box-shadow: inset 3px 3px 6px var(--shadow-dark),
+              inset -3px -3px 6px var(--shadow-light);
+}
+
+.back-btn svg, .share-btn svg { font-size: 1.05rem; }
+
+.share-toast {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+  z-index: 400;
+  animation: toastIn 0.25s ease-out;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.product-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 32px;
+  border-radius: 30px;
+}
+
+.product-image-wrap {
+  width: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--bg);
+  align-self: start;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-cat {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.product-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+
+.product-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.product-description {
+  color: var(--text-soft);
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.product-details {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.product-details li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  font-weight: 300;
+}
+
+.product-details svg {
+  color: #1f9d55;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Variations */
+.variation-block { margin-bottom: 22px; }
+
+.variation-block h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.req { color: var(--accent); }
+
+.variation-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.variation-chip {
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  background: var(--bg);
+  box-shadow: 4px 4px 8px var(--shadow-dark),
+              -4px -4px 8px var(--shadow-light);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.variation-chip.active {
+  color: var(--accent);
+  box-shadow: inset 3px 3px 6px var(--shadow-dark),
+              inset -3px -3px 6px var(--shadow-light);
+}
+
+.variation-error {
+  color: #d64b4b;
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+/* Quantity */
+.qty-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  margin-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.qty-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-controls .qty-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  color: var(--accent);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.qty-controls .qty-btn:active {
+  box-shadow: inset 3px 3px 6px var(--shadow-dark),
+              inset -3px -3px 6px var(--shadow-light);
+}
+
+.qty-controls .qty-value {
+  min-width: 46px;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.add-to-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  font-size: 1rem;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.add-to-cart-btn svg { font-size: 1.1rem; }
+
+.product-empty {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.empty-cart {
+  padding: 70px 30px;
+  text-align: center;
+  border-radius: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 500px;
+}
+
+.empty-cart h3 { font-size: 1.3rem; }
+
+@media (max-width: 900px) {
+  .product-card { grid-template-columns: 1fr; gap: 24px; padding: 22px; }
+  .product-title { font-size: 1.5rem; }
+  .product-price { font-size: 1.4rem; }
+}
+
+@media (max-width: 500px) {
+  .product-page { padding-top: 100px; }
+  .product-card { padding: 16px; border-radius: 22px; }
+  .back-btn span, .share-btn span { display: none; }
+  .back-btn, .share-btn { padding: 10px 12px; }
+}
+
+/* View details button */
+.view-details-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.view-details-btn svg:first-child {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.view-details-btn .chev {
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  transition: transform 0.25s ease;
+}
+
+.view-details-btn.open .chev {
+  transform: rotate(180deg);
+}
+
+.view-details-btn:active {
+  box-shadow: inset 3px 3px 6px var(--shadow-dark),
+              inset -3px -3px 6px var(--shadow-light);
+}
+
+/* Details panel */
+.details-panel {
+  padding: 4px 2px 20px 2px;
+  animation: detailsSlide 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes detailsSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 500px) {
+  .view-details-btn {
+    font-size: 0.86rem;
+    padding: 12px 14px;
+  }
+}
